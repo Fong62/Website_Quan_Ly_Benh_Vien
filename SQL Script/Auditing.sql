@@ -1,0 +1,48 @@
+﻿USE master
+CREATE SERVER AUDIT Audit_TaiKhoan
+TO FILE (
+    FILEPATH = 'C:\Users\Admin\Desktop\BenhVienDB\Audit_Log',  
+    MAXSIZE = 10 MB
+)
+WITH (ON_FAILURE = CONTINUE);
+go
+USE QLBV;
+GO
+CREATE DATABASE AUDIT SPECIFICATION Audit_TaiKhoan
+FOR SERVER AUDIT Audit_TaiKhoan
+ADD (SELECT, INSERT, UPDATE, DELETE
+     ON dbo.TaiKhoan BY PUBLIC)
+GO
+
+USE master
+CREATE SERVER AUDIT Audit_PhieuNhapThuoc
+TO FILE (
+    FILEPATH = 'C:\Users\Admin\Desktop\BenhVienDB\Audit_Log',  
+    MAXSIZE = 10 MB
+)
+WITH (ON_FAILURE = CONTINUE);
+USE QLBV;
+GO
+CREATE DATABASE AUDIT SPECIFICATION Audit_PhieuNhapThuoc
+FOR SERVER AUDIT Audit_PhieuNhapThuoc
+ADD (SELECT, INSERT, UPDATE, DELETE
+     ON dbo.PhieuNhapThuoc BY PUBLIC)
+
+USE master;
+GO
+CREATE SERVER AUDIT Audit_ChiTietToaThuoc
+TO FILE (
+    FILEPATH = 'C:\Users\Admin\Desktop\BenhVienDB\Audit_Log\',  
+    MAXSIZE = 10 MB
+)
+WITH (ON_FAILURE = CONTINUE);
+GO
+
+USE QLBV;
+GO
+CREATE DATABASE AUDIT SPECIFICATION Audit_Spec_ChiTietToaThuoc
+FOR SERVER AUDIT Audit_ChiTietToaThuoc
+ADD (SELECT, INSERT, UPDATE, DELETE
+     ON dbo.ChiTietToaThuoc BY PUBLIC)
+WITH (STATE = ON);
+GO
